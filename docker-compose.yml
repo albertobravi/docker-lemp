@@ -2,15 +2,13 @@ version: "3.3"
 
 services:
   nginx:
-    image: tutum/nginx
+    image: nginx
     ports:
       - "80:80"
     links:
       - phpfpm
     volumes:
-      - ./nginx/default:/etc/nginx/sites-available/default
-      - ./nginx/default:/etc/nginx/sites-enabled/default
-
+      - ./nginx/:/etc/nginx/conf.d/
       - ./logs/nginx:/var/log/nginx/
 
   phpfpm:
@@ -18,7 +16,7 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - ./public:/usr/share/nginx/html
+      - ./projects:/var/www/html/
 
   mysql:
     image: mariadb
