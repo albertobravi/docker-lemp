@@ -8,22 +8,24 @@ services:
     links:
       - phpfpm
     volumes:
-      - ./nginx/:/etc/nginx/conf.d/
-      - ./logs/nginx:/var/log/nginx/
+      - ./nginx:/etc/nginx/conf.d
+      - ./logs/nginx:/var/log/nginx
 
   phpfpm:
     image: php:fpm
     ports:
       - "9000:9000"
     volumes:
-      - ./projects:/var/www/html/
+      - ./projects:/var/www/html
 
   mysql:
     image: mariadb
     environment:
-      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: secret
     ports:
       - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -37,3 +39,19 @@ services:
       PMA_PASSWORD: admin
       PMA_ARBITRARY: 1
       PMA_HOST: mysql
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
