@@ -36,7 +36,7 @@ services:
       - 8183:80
     environment:
       PMA_USER: root
-      PMA_PASSWORD: admin
+      PMA_PASSWORD: secret
       PMA_ARBITRARY: 1
       PMA_HOST: mysql
 
